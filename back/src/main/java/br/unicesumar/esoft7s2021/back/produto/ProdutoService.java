@@ -1,11 +1,13 @@
 package br.unicesumar.esoft7s2021.back.produto;
-
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+//import java.util.List;
 
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @Transactional
@@ -13,12 +15,19 @@ public class ProdutoService {
  @Autowired
  private ProdutoRepository repository;
 
- public List<Produto> obterTodos(String termo){
+ public Page<Produto> obterTodos(Pageable pageRequest, String termo) {
+    if (termo == null || termo.trim().length() == 0) {
+        return repository.findAll(pageRequest);            
+    }
+    return repository.findByDescricaoLike(pageRequest, "%" + termo + "%");
+
+} 
+ /*public List<Produto> obterTodos(String termo){
        if(termo == null || termo.trim().length() == 0){
            return repository.findAll();
        }
        return repository.findByDescricaoLike("%" + termo + "%");
- }
+ }*/
  public Produto obterPeloId(String id){
      return repository.findById(id).orElseGet(Produto::new);
  }
@@ -28,5 +37,12 @@ public class ProdutoService {
  public Produto salvar(Produto produto){
      return repository.save(produto);
  }
+
+ public void gerarProdutos() {
+    for (int i = 0; i < 1000; i++) {
+        Produto novo = new Produto(" Produto " + i, LocalDate.now(), new BigDecimal(i * 1.10));
+        repository.save(novo);
+    }
+}
 
 }
