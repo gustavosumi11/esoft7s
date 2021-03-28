@@ -2,8 +2,21 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import NavBar from '../menu/menu';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 
+const useStyles = makeStyles({
+    table: {
+      minWidth: 650,
+    },
+  });
 const ProdutoList = () => {
     const [produtos, setProdutos] = useState({content: [], pageable: {pageNumber: 0}, totalPages: 0});
     const [termoDeBusca, setTermoDeBusca] = useState("");
@@ -11,15 +24,18 @@ const ProdutoList = () => {
 
     const doGetProdutos = async (páginaRequerida) => {
         const response = await axios.get(`/api/produtos?termo=${termoDeBusca}&page=${páginaRequerida}`);
+        setPáginaRequerida(páginaRequerida);
     //const doSearchProdutos = async () => {
        // const response = await axios.get(`/api/produtos?termo=${termoDeBusca}`);
       
         setProdutos(response.data);
         console.log(response.data);
     }
+    
 
     useEffect(() => {
-        doGetProdutos(0);
+        console.log("executando doGetProdutos" + páginaRequerida);
+        doGetProdutos(páginaRequerida);
     }, [])
 
     const doExcluirProdutos = async (id) => {
@@ -60,27 +76,38 @@ const ProdutoList = () => {
     }, [páginaRequerida]);
 
     const requestPage = (requestedPage) => {
+        console.log(`requestPage=${requestPage} totalPages=${produtos.totalPages} páginaRequerida=${páginaRequerida}`);
         if (requestedPage <= 0) {
             requestedPage = 0;
         }
         if (requestedPage >= produtos.totalPages) {
             requestedPage = produtos.totalPages-1;
         }
+        console.log(requestPage);
         setPáginaRequerida(requestedPage);
     }
-
+    function createData(descricao, lancadoEm,precoUnitario) {
+        return { descricao, lancadoEm, precoUnitario };
+      }
+    const row = [
+        createData('Frozen yoghurt', '24/10/2021', 21),
+        
+      ];
+      
+      const classes = useStyles();
 
     return (
         <div>
             <NavBar></NavBar>
             <h2>Listagem de Produtos</h2>
-            <hr>
-            </hr> 
+            <hr></hr> 
 
-            <Link to="/produtos/novo">
-                <button>Novo Produto</button>  
+            
                 
-            </Link>
+    <Link to="/produtos/novo">
+                <button>Novo Produto</button>  
+                </Link>
+            
             <div>
                 <input type="text" name="search" onChange={handleSearchInputChange}>
                 </input>
@@ -105,7 +132,9 @@ const ProdutoList = () => {
                     {tableData}
                 </tbody>
             </table>
+       
         </div>
+        
     )
 }
 

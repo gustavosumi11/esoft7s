@@ -1,5 +1,8 @@
 package br.unicesumar.esoft7s2021.back.produto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //import java.util.List;
 
 
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/produtos")
 public class ProdutoController {
+   
     @Autowired
     private ProdutoService service;    
 

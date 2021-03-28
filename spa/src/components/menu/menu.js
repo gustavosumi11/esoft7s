@@ -8,7 +8,7 @@ const Menu = () => {
         <>
         <Nav>
             <NavLink to="/" activeStyle>
-                <h1>Teste de Covid</h1>
+                <h1>Implementações J/R</h1>
             </NavLink>
             <Bars />
             <NavMenu>
