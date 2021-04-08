@@ -34,8 +34,7 @@ const ProdutoList = () => {
     
 
     useEffect(() => {
-        console.log("executando doGetProdutos" + páginaRequerida);
-        doGetProdutos(páginaRequerida);
+        doGetProdutos(0);
     }, [])
 
     const doExcluirProdutos = async (id) => {
@@ -72,6 +71,7 @@ const ProdutoList = () => {
         </tr>;
     })
     useEffect(() => {
+        console.log("Executando o doGetProdutos " + páginaRequerida);
         doGetProdutos(páginaRequerida);
     }, [páginaRequerida]);
 

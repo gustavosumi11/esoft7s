@@ -21,6 +21,7 @@ import ProdutoEdit from './components/produto/produto-edit';
 import EditoraList from './components/editora/editora-list';
 import EditoraEdit from './components/editora/editora-edit';
 import Menu from './components/menu/menu';
+import ManterProduto from './components/produto2/manter-produto';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
     <Router>
       
     <Switch>
+    <Route path="/produtos2" component={ManterProduto}></Route>
     <Route exact path="/">
       <Menu />
         <LandingPage></LandingPage>
