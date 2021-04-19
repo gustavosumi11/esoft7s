@@ -8,7 +8,7 @@ const Menu = () => {
         <>
         <Nav>
             <NavLink to="/" activeStyle>
-                <h1>Implementações J/R</h1>
+                <h2>Implementações J/R</h2>
             </NavLink>
             <Bars />
             <NavMenu>
@@ -21,6 +21,7 @@ const Menu = () => {
                 <NavLink to ="/produtos2" activeStyle>
                     Produtos 2
                     </NavLink>
+                    
                 <NavLink to="/cores" activeStyle>
                     Cores
                 </NavLink>
