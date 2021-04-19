@@ -2,11 +2,40 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Menu from '../menu/menu';
-
+import { Button, Modal } from 'react-bootstrap';
 
 const ProdutoList = (props) => {
     const [produtos, setProdutos] = useState({ content: [], pageable: { pageNumber: 0 }, totalPages: 0 });
     const { statusPesquisa, setStatusPesquisa } = props;
+    const [ idToDelete, setIdToDelete ] = useState(null);
+
+    const handleAbortConfirmDelete = () => {
+        setIdToDelete(null);
+    }
+
+    const handleConfirmDelete = () => {
+        doExcluirProdutos(idToDelete);
+        setIdToDelete(null);
+    }
+
+    const renderConfirmDelete = () => {
+        return (
+            <Modal show={idToDelete !== null} onHide={handleAbortConfirmDelete} >
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirmação de exclusão</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Deseja realmente excluir o registro?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleAbortConfirmDelete}>
+                        Abortar
+              </Button>
+                    <Button variant="primary" onClick={handleConfirmDelete}>
+                        Excluir
+              </Button>
+                </Modal.Footer>
+            </Modal>
+        )
+    }
 
     const doGetProdutos = async (páginaRequerida, termoDePesquisa) => {        
         const response = await axios.get(`/api/produtos?termo=${termoDePesquisa}&page=${páginaRequerida}`);
@@ -75,6 +104,7 @@ const ProdutoList = (props) => {
     return (
         <div>
             <Menu></Menu>
+            {renderConfirmDelete()}
             <h2>Listagem de Produtos</h2>
             <hr></hr>
 

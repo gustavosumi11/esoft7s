@@ -4,7 +4,7 @@ import ProdutoList from './produto-list';
 import ProdutoEdit from './produto-edit';
 
 const ManterProduto = () => {
-    const [statusPesquisa, setStatusPesquisa] = useState({páginaAtual: 0, termoDePesquisa : "teste"});
+    const [statusPesquisa, setStatusPesquisa] = useState({páginaAtual: 0, termoDePesquisa : "1"});
 
     useEffect(() => {
         console.log("<<MANTER PRODUT>> Página atual alterada! " + statusPesquisa.páginaAtual);

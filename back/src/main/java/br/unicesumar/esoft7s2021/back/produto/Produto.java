@@ -4,11 +4,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
-
+import br.unicesumar.esoft7s2021.back.cor.Cor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +30,13 @@ public class Produto {
     @Setter
     @Column(scale = 2)
     private BigDecimal precoUnitario;
-    
+
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @Getter
+    @Setter
+    @ManyToOne
+    private Cor corPadrao;
+
     public Produto(){
         this.id=UUID.randomUUID().toString();
     }

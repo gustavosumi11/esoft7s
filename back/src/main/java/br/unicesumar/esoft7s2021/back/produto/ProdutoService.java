@@ -35,6 +35,9 @@ public class ProdutoService {
      repository.deleteById(id);
  }
  public Produto salvar(Produto produto){
+    if (produto.getCorPadrao() == null) {
+        throw new ProdutoInválidoExcep("Cor padrão do produto não pode ser nula!");
+    }
      return repository.save(produto);
  }
 

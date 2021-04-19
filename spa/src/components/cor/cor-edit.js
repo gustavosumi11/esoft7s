@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory, useParams } from 'react-router-dom';
-
+import { Link,useHistory, useParams } from 'react-router-dom';
+import {Button} from 'react-bootstrap';
+import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 
 
 const CorEdit = () => {
     const history = useHistory();
     const { idParaEditar } = useParams();
     const emModoDeEdição = idParaEditar !== undefined;
+    const [produto, setProduto] = useState({ descricao: "", lancadoEm: new Date(),
+precoUnitario: 0.00});
+    const [searchedCores, setSearchedProdutos] = useState([]);
+    const[isLoading, setIsLoading] = useState(false);
+
+
     const [cor, setCor] = useState({Sigla: "", nome: "" });
 
     console.log(idParaEditar);

@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 // import SomarComponent from './components/somar-component';
 // import HelloComponent from './components/hello-component';
 // import ContadorComponent from './components/contador-component';
@@ -75,7 +76,7 @@ function App() {
         <MeuLivroEdit></MeuLivroEdit>
       </Route>
       <Route exact path="/cores">
-      <Menu />
+    
         <CorList></CorList>
       </Route>
       <Route path="/cores/editar/:idParaEditar">

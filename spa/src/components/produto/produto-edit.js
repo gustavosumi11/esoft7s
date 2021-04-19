@@ -8,7 +8,9 @@ const ProdutoEdit = () => {
     const history = useHistory();
     const { idParaEditar } = useParams();
     const emModoDeEdição = idParaEditar !== undefined;
-    const [produto, setProduto] = useState({descricao: "", lancadoEm: new Date(), precoUnitario : 0.00  });
+    const [produto, setProduto] = useState({ descricao: "", lancadoEm: new Date(), precoUnitario: 0.00, corPadraoVO: {id:"", nome: ""}} );
+    const [searchedCores, setSearchedCores] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     console.log(idParaEditar);
 
@@ -30,12 +32,16 @@ const ProdutoEdit = () => {
     }
 
     const doPost = async () => {
+        console.log("Posting...");
+        console.log(produto);
+        console.log("Posted.");
         const response = await axios.post("/api/produtos", produto);
         alert("Novo produto criado! Id=" + response.data);
         history.push("/produtos");
     }
 
     const handleSubmit = (event) => {
+        console.log("handle subm");
         event.preventDefault();
         if (emModoDeEdição) {
             console.log("Put...");
@@ -50,6 +56,18 @@ const ProdutoEdit = () => {
         //console.log(event.target.name + "=" + event.target.value);
         const novoProduto = { ...produto, [event.target.name]: event.target.value };
         //console.log(novaCor);
+        setProduto(novoProduto);
+    }
+    const doSearchCores = async (termoDePesquisa) => {
+        setIsLoading(true);
+        const response = await axios.get(`/api/cores?termo=${termoDePesquisa}`);
+        setSearchedCores(response.data.content);
+        setIsLoading(false);
+    }
+    const setSelectedCor = (cor) => {
+        console.log("setSelectedCor");
+        const novoProduto = { ...produto, corPadrao: cor[0] };
+        console.log(novoProduto);        
         setProduto(novoProduto);
     }
 
@@ -67,7 +85,7 @@ const ProdutoEdit = () => {
                 <div>Preço unitário:
                     <input type="text" name="precoUnitario" onChange={handleChange} value={produto.precoUnitario}required></input>
                 </div>
-                <button>Enviar</button>
+                
                 <Link to ="/produtos">
                     <button>Voltar</button>
                 </Link>
